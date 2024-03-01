@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Checker</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        h1, h2, p {
+            margin: 10px;
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            color: red;
+        }
+
+        #logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #f00;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="logout-btn" onclick="window.location.href='{{ url_for('logout') }}';">Logout</button>
+    <h1>Welcome, {{ current_user.username }}!</h1>
+    <h2>Enter a word:</h2>
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+    <form action="/check_word" method="post">
+        {{ form.hidden_tag() }}
+        <label for="word">Word:</label>
+        {{ form.word }}
+        <label for="language">Language:</label>
+        <select name="language" id="language">
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Gujarathi">Gujarathi</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Malyalam">Malyalam</option>
+            <option value="odia">odia</option>
+            <option value="Marathi">Marathi</option>
+            <!-- Add more options as needed -->
+        </select>
+        {{ form.submit }}
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
